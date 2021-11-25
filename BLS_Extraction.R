@@ -2,6 +2,8 @@
 # Date Created: 15 November 2021
 
 # This is initial, messy code to extract data from the BLS API
+# You will require your own registration key for the API, it should be
+# a character vector named 'registration'
 
 library(blsAPI)
 library(rjson)
@@ -29,3 +31,7 @@ state_and_territories <- blsSeriesIDs(area_codes$area_code[area_codes$area_type_
 
 # Example: Alabama Unemployment Rate, most recent 36 months
 # alabama_unemployment_rate <- blsAPI(payload = 'LAUST010000000000003', return_data_frame = TRUE)
+
+# Download Data with the BLS API
+# bls_payload <- list('seriesid' = state_and_territories, 'registrationKey' = registration)
+# US_unemployment_by_state <- blsAPI(bls_payload, return_data_frame = TRUE)
