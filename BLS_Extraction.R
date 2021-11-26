@@ -1,12 +1,13 @@
 # Author: Eric Wilson
 # Date Created: 15 November 2021
 
-# This is initial, messy code to extract data from the BLS API
-# You will require your own registration key for the API, it should be
-# a character vector named 'registration'
+"This code extracts data from the BLS API
+ You will require your own registration key for the API, it should be
+ a character vector named 'registration'"
 
 library(blsAPI)
 library(rjson)
+library(tidyverse)
 
 blsSeriesIDs <- function(area_code, seasonal_adjustment = 'U', measure = '03'){
     "seasonal_adjustment <- {'U', 'S}, where 'U' is unadjusted and 'S' is adjusted
@@ -28,10 +29,12 @@ close(tc)
 
 # Create DataFrame of unemployment rate
 state_and_territories <- blsSeriesIDs(area_codes$area_code[area_codes$area_type_code == 'A'])
+ID_and_state_map <- data.frame(IDs = state_and_territories, Territory = area_codes$area_text[area_codes$area_type_code == 'A'])
 
 # Example: Alabama Unemployment Rate, most recent 36 months
 # alabama_unemployment_rate <- blsAPI(payload = 'LAUST010000000000003', return_data_frame = TRUE)
 
-# Download Data with the BLS API
+# Download US Unemployment Data by State with the BLS API
 # bls_payload <- list('seriesid' = state_and_territories, 'registrationKey' = registration)
 # US_unemployment_by_state <- blsAPI(bls_payload, return_data_frame = TRUE)
+# US_unemployment_by_state <- left_join(US_unemployment_by_state, ID_and_state_map, by = c("seriesID" = "IDs"))
