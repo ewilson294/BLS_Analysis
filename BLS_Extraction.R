@@ -38,3 +38,5 @@ ID_and_state_map <- data.frame(IDs = state_and_territories, Territory = area_cod
 # bls_payload <- list('seriesid' = state_and_territories, 'registrationKey' = registration)
 # US_unemployment_by_state <- blsAPI(bls_payload, return_data_frame = TRUE)
 # US_unemployment_by_state <- left_join(US_unemployment_by_state, ID_and_state_map, by = c("seriesID" = "IDs"))
+# US_unemployment_by_state$value <- as.numeric(US_unemployment_by_state$value)
+# US_unemployment_by_state$Date <- as.Date(paste("1", tolower(US_unemployment_by_state$periodName), US_unemployment_by_state$year, sep = ""), "%d%b%Y")
