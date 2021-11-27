@@ -27,7 +27,7 @@ tc <- textConnection(area_file)
 area_codes <- read.table(tc, sep = '\t', header = TRUE, colClasses = "character", quote = "")
 close(tc)
 
-# Create DataFrame of unemployment rate
+# Create DataFrame of unemployment rate series IDs
 state_and_territories <- blsSeriesIDs(area_codes$area_code[area_codes$area_type_code == 'A'])
 ID_and_state_map <- data.frame(IDs = state_and_territories, Territory = area_codes$area_text[area_codes$area_type_code == 'A'])
 
@@ -40,3 +40,12 @@ ID_and_state_map <- data.frame(IDs = state_and_territories, Territory = area_cod
 # US_unemployment_by_state <- left_join(US_unemployment_by_state, ID_and_state_map, by = c("seriesID" = "IDs"))
 # US_unemployment_by_state$value <- as.numeric(US_unemployment_by_state$value)
 # US_unemployment_by_state$Date <- as.Date(paste("1", tolower(US_unemployment_by_state$periodName), US_unemployment_by_state$year, sep = ""), "%d%b%Y")
+
+# Download US Labor Force Data by State with the BLS API
+# state_and_territories <- blsSeriesIDs(area_codes$area_code[area_codes$area_type_code == 'A'], measure = '06')
+# ID_and_state_map <- data.frame(IDs = state_and_territories, Territory = area_codes$area_text[area_codes$area_type_code == 'A'])
+# bls_payload <- list('seriesid' = state_and_territories, 'registrationKey' = registration)
+# US_laborForce_by_state <- blsAPI(bls_payload, return_data_frame = TRUE)
+# US_laborForce_by_state <- left_join(US_laborForce_by_state, ID_and_state_map, by = c("seriesID" = "IDs"))
+# US_laborForce_by_state$value <- as.numeric(US_laborForce_by_state$value)
+# US_laborForce_by_state$Date <- as.Date(paste("1", tolower(US_laborForce_by_state$periodName), US_laborForce_by_state$year, sep = ""), "%d%b%Y")
