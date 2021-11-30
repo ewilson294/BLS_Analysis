@@ -1,5 +1,8 @@
 # BLS_Analysis
 
+## Link to Sample R Code from API website
+https://www.bls.gov/developers/api_r.htm
+
 ## Registration Key
 Obtain a registration key from https://data.bls.gov/registrationEngine/
 
