@@ -10,7 +10,9 @@ library(rjson)
 library(tidyverse)
 
 blsSeriesIDs <- function(area_code, seasonal_adjustment = 'U', measure = '03'){
-    "seasonal_adjustment <- {'U', 'S}, where 'U' is unadjusted and 'S' is adjusted
+    "
+     This function is for Local Area Statistics
+     seasonal_adjustment <- {'U', 'S}, where 'U' is unadjusted and 'S' is adjusted
      measure <- {'03', '04', '05', '06'} where '03' is Unemployment Rate,
         '04' is Unemployment, '05' is Employment, and '06' is Labor Force
      area_code refers to BLS area codes
@@ -49,3 +51,17 @@ ID_and_state_map <- data.frame(IDs = state_and_territories, Territory = area_cod
 # US_laborForce_by_state <- left_join(US_laborForce_by_state, ID_and_state_map, by = c("seriesID" = "IDs"))
 # US_laborForce_by_state$value <- as.numeric(US_laborForce_by_state$value)
 # US_laborForce_by_state$Date <- as.Date(paste("1", tolower(US_laborForce_by_state$periodName), US_laborForce_by_state$year, sep = ""), "%d%b%Y")
+
+blsEHEids <- function(seasonal_adjustment = 'U', state, area = '00000', 
+                      industry = '00000000', data_type = '03'){
+    seriesID <- paste('SM', seasonal_adjustment, state, area, industry, data_type, sep = "")
+    return(seriesID)
+}
+
+# Create DataFrame of Average Hourly Earnings of All Nonfarm Employees, In Dollars 
+state_wages <- blsEHEids(state = state_codes$state_code)
+wage_to_state_map <- data.frame(IDs = state_wages, State = state_codes$state_code)
+
+# Download US Nonfarm Hourly Wage Data, by State
+# bls_payload <- list('seriesid' = state_wages, 'registrationKey' = registration)
+# US_hourlyWages_by_state <- blsAPI(bls_payload, return_data_frame = TRUE)
